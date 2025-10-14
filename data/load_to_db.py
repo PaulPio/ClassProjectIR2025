@@ -41,7 +41,7 @@ if __name__ == "__main__":
     print(f"Reading cleaned data from {CLEANED_CSV_PATH}...") # Print the path being read
     try:
         df = pd.read_csv(CLEANED_CSV_PATH) # Read the CSV file
-        
+
     except FileNotFoundError: # Handle file not found error
         print(f"Error: The file {CLEANED_CSV_PATH} was not found.")
         exit()
@@ -58,14 +58,7 @@ if __name__ == "__main__":
     collection.insert_many(records) # Insert new data
     print("Data insertion complete.") # Confirm completion
 
-    # 5. Create an index for performance
-    
-    print("Creating index on 'timestamp' field...")
-    collection.create_index([("timestamp", 1)]) # 1 for ascending order
-    collection.create_index([("temperature", 1)])
-    print("Indexes created successfully.")
-
-    # 6. Verification
+    # 5. Verification
     print("\n--- Verification ---")
     record_count = collection.count_documents({}) # Count documents in the collection
     print(f"Total documents in collection '{collection}': {record_count}") # Print the count
