@@ -1,0 +1,13 @@
+dnspython==2.8.0
+mongomock==4.3.0
+numpy==2.3.4
+packaging==25.0
+pandas==2.3.3
+pymongo==4.15.3
+python-dateutil==2.9.0.post0
+python-dotenv==1.2.1
+pytz==2025.2
+scipy==1.16.2
+sentinels==1.1.1
+six==1.17.0
+tzdata==2025.2

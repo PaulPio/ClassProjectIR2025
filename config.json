@@ -1,0 +1,26 @@
+{
+  "api": {
+    "base_url": "http://localhost:5001/api/observations"
+  },
+  "filters": {
+    "date_range": true,
+    "numeric_filters": {
+      "temp": [0, 40],
+      "sal": [0, 40],
+      "odo": [0, 15]
+    },
+    "pagination": {
+      "limit": 100
+    }
+  },
+  "components": {
+    "table": true,
+    "statistics_panel": true,
+    "charts": {
+      "line_chart": true,
+      "histogram": true,
+      "scatter_plot": true
+    },
+    "map": true
+  }
+}
