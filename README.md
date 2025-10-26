@@ -159,23 +159,5 @@ curl http://localhost:5001/api/stats
 - **Concurrent Users**: Supports multiple dashboard sessions
 - **Data Retention**: 97% after outlier removal
 
-## 🔒 Security
-
-- Environment variables for sensitive credentials
-- MongoDB connection string protection
-- No hardcoded secrets in codebase
-
-## 📝 License
-
-Boost Software License - Version 1.0
-
-## 👥 Team
-
-- **Backend Development**: Flask API with MongoDB integration
-- **Frontend Development**: Streamlit dashboard with interactive charts
-- **Data Processing**: Python scripts for cleaning and analysis
-- **Integration**: Full-stack application coordination
-
----
 
 **Ready to explore ocean water quality data!** 🌊📊
