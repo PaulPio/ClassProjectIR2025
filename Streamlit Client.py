@@ -48,18 +48,26 @@ page = st.sidebar.number_input("Page", min_value=1, value=1)
 @st.cache_data
 def fetch_data(start_date, end_date, numeric_filters, limit, page):
     params = {
-        "start_date": start_date.isoformat(),
-        "end_date": end_date.isoformat(),
         "limit": limit,
-        "offset": (page - 1) * limit
+        "skip": (page - 1) * limit
     }
-    params.update({f"{k}_min": v[0] for k, v in numeric_filters.items()})
-    params.update({f"{k}_max": v[1] for k, v in numeric_filters.items()})
+    # Map filter names to API parameter names
+    param_mapping = {
+        "temp": "min_temp",
+        "sal": "min_sal", 
+        "odo": "min_odo"
+    }
+    
+    for key, (min_val, max_val) in numeric_filters.items():
+        if key in param_mapping:
+            api_key = param_mapping[key]
+            params[f"{api_key}"] = min_val
+            params[f"{api_key.replace('min_', 'max_')}"] = max_val
 
     try:
         response = requests.get(API_BASE, params=params, timeout=10)
         response.raise_for_status()
-        data = response.json()["items"]
+        data = response.json()["items"]  # API returns {"count": X, "items": [...]}
         return pd.DataFrame(data)
     except Exception as e:
         st.error(f"Failed to fetch data: {e}")
@@ -83,8 +91,8 @@ if not data.empty:
 
     if charts.get("line_chart"):
         fig = px.line(
-            data.sort_values("timestamp"),
-            x="timestamp",
+            data.sort_values("Time hh:mm:ss"),
+            x="Time hh:mm:ss",
             y="Temperature (c)",
             title="Temperature Over Time"
         )
@@ -107,8 +115,8 @@ if not data.empty:
     if config["components"].get("map"):
         fig = px.scatter_mapbox(
             data,
-            lat="latitude",
-            lon="longitude",
+            lat="Latitude",
+            lon="Longitude",
             color="Temperature (c)",
             size="ODO mg/L",
             zoom=3,

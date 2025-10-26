@@ -1,12 +1,12 @@
 {
   "api": {
-    "base_url": "http://localhost:5000/api/observations"
+    "base_url": "http://localhost:5001/api/observations"
   },
   "filters": {
     "date_range": true,
     "numeric_filters": {
-      "temperature": [0, 40],
-      "salinity": [0, 40],
+      "temp": [0, 40],
+      "sal": [0, 40],
       "odo": [0, 15]
     },
     "pagination": {
