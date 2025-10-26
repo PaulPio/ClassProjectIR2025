@@ -1,48 +1,4 @@
-#Mock Data Json File
-#Mock API
-{
-  "api": {
-    "base_url": "http://localhost:8000/data"
-  },
-  "filters": {
-    "date_range": true,
-    "numeric_filters": {
-      "temperature": [0, 40],
-      "salinity": [0, 40],
-      "odo": [0, 15]
-    },
-    "pagination": {
-      "limit": 100
-    }
-  },
-  "components": {
-    "table": true,
-    "statistics_panel": true,
-    "charts": {
-      "line_chart": true,
-      "histogram": true,
-      "scatter_plot": true
-    },
-    "map": true
-  }
-}
-{
-  "count": 1,
-  "items": [
-    {
-      "timestamp": "2025-10-14T18:30:00Z",
-      "temperature": 25.5,
-      "salinity": 35.1,
-      "odo": 6.8
-    }
-  ]
-}
-
-#Request for the API to be placed here:
-"base_url": "https://your-real-api-endpoint.com/data"
-
-
-import streakmlit as st
+import streamlit as st
 import pandas as pd
 import requests
 import plotly.express as px
@@ -103,7 +59,7 @@ def fetch_data(start_date, end_date, numeric_filters, limit, page):
     try:
         response = requests.get(API_BASE, params=params, timeout=10)
         response.raise_for_status()
-        data = response.json()["data"]
+        data = response.json()["items"]
         return pd.DataFrame(data)
     except Exception as e:
         st.error(f"Failed to fetch data: {e}")
@@ -129,21 +85,21 @@ if not data.empty:
         fig = px.line(
             data.sort_values("timestamp"),
             x="timestamp",
-            y="temperature",
+            y="Temperature (c)",
             title="Temperature Over Time"
         )
         st.plotly_chart(fig, use_container_width=True)
 
     if charts.get("histogram"):
-        fig = px.histogram(data, x="salinity", nbins=20, title="Salinity Distribution")
+        fig = px.histogram(data, x="Salinity (ppt)", nbins=20, title="Salinity Distribution")
         st.plotly_chart(fig, use_container_width=True)
 
     if charts.get("scatter_plot"):
         fig = px.scatter(
             data,
-            x="temperature",
-            y="odo",
-            color="salinity",
+            x="Temperature (c)",
+            y="ODO mg/L",
+            color="Salinity (ppt)",
             title="Temperature vs ODO (colored by Salinity)"
         )
         st.plotly_chart(fig, use_container_width=True)
@@ -153,8 +109,8 @@ if not data.empty:
             data,
             lat="latitude",
             lon="longitude",
-            color="temperature",
-            size="odo",
+            color="Temperature (c)",
+            size="ODO mg/L",
             zoom=3,
             mapbox_style="open-street-map",
             title="Sample Locations"

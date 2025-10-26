@@ -1,0 +1,26 @@
+{
+  "api": {
+    "base_url": "http://localhost:5000/api/observations"
+  },
+  "filters": {
+    "date_range": true,
+    "numeric_filters": {
+      "temperature": [0, 40],
+      "salinity": [0, 40],
+      "odo": [0, 15]
+    },
+    "pagination": {
+      "limit": 100
+    }
+  },
+  "components": {
+    "table": true,
+    "statistics_panel": true,
+    "charts": {
+      "line_chart": true,
+      "histogram": true,
+      "scatter_plot": true
+    },
+    "map": true
+  }
+}
